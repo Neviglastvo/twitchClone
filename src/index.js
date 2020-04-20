@@ -1,17 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import "assets/sass/app.sass"
+import React from "react"
+import ReactDOM from "react-dom"
+import { Provider } from "react-redux"
+import { applyMiddleware, createStore } from "redux"
+import { composeWithDevTools } from "redux-devtools-extension"
+import thunk from "redux-thunk"
+import { rootReducer } from "redux/rootReducer"
+import App from "./App"
+import history from "utils/history"
+import { Auth0Provider } from "react-auth0-spa"
+
+const store = createStore(
+	rootReducer,
+	composeWithDevTools(
+		applyMiddleware(thunk),
+		// other store enhancers if any
+	),
+)
+
+// A function that routes the user to the right place after login
+const onRedirectCallback = (appState) => {
+	history.push(
+		appState && appState.targetUrl
+			? appState.targetUrl
+			: window.location.pathname,
+	)
+}
+
+const config = {
+	domain: "nevejestvo.eu.auth0.com",
+	clientId: "2ZJxhsyNynJIDymj0h34rM657bL8flSe",
+	redirect_uri: "http://localhost:3000/profile",
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+	<Provider store={store}>
+		<Auth0Provider
+			domain={config.domain}
+			client_id={config.clientId}
+			redirect_uri={config.redirect_uri}
+			onRedirectCallback={onRedirectCallback}
+		>
+			<App />
+		</Auth0Provider>
+	</Provider>,
+	document.getElementById("root"),
+)

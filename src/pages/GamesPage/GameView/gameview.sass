@@ -1,0 +1,89 @@
+@import 'src/assets/sass/helpers/_variables'
+@import 'src/assets/sass/helpers/_mixins'
+
+.game
+	&__bg
+		+cover
+		position: fixed
+		z-index: 0
+		opacity: 0.1
+		background-size: 100% auto
+		background-position: center center
+		background-repeat: no-repeat
+		background-attachment: fixed
+		pointer-events: none
+		+after
+			+cover
+			background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(37,34,45,1) 85%)
+	&__container
+		z-index: 1
+
+
+	&__title-container
+		width: 100%
+		display: flex
+		justify-content: space-between
+
+	&__title
+		font-size: vw(1920, 42px)
+
+	&__subtitle
+
+
+	&__list
+		width: 100%
+		display: block
+		overflow: hidden
+		padding: 20px 0
+
+	&__list-container
+		display: flex
+		flex-wrap: wrap
+		margin: -10px
+
+	&__list-item
+		width: calc(100%/3)
+		padding: 10px
+
+	&__item
+		display: block
+		+aspectRatio(16, 9)
+		width: 100%
+		background-size: cover
+		background-repeat: no-repeat
+		background-position: center center
+		opacity: 0.95
+		overflow: hidden
+		+after
+			+cover
+			+gradient($dark, transparent, $direction: bottom)
+			pointer-events: none
+
+
+	&__item-container
+		padding: 15px
+		display: flex
+		justify-content: space-between
+		align-items: flex-end
+		z-index: 1
+
+	&__item-title
+		color: $white
+		font-size: 20px
+		font-weight: 900
+
+
+	&__item-viewers
+
+
+
+	&__item-logo
+		+cover
+
+	&__actions
+		width: 100%
+		display: flex
+		justify-content: space-between
+
+	&__action
+
