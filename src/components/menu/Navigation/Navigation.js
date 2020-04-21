@@ -12,9 +12,9 @@ const Navigation = () => {
 			<NavLink className="navigation__item" to="/games">
 				Games
 			</NavLink>
-			<NavLink className="navigation__item" to="/auth">
+			{/* <NavLink className="navigation__item" to="/auth">
 				Auth
-			</NavLink>
+			</NavLink> */}
 
 			<NavLink className="navigation__item" to="/profile">
 				Profile

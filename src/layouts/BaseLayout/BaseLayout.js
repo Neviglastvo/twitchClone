@@ -23,7 +23,7 @@ const BaseLayout = ({ children }) => {
 
 					<div>
 						<TwitchAuth />
-						{/* <User/> */}
+						<User />
 					</div>
 				</div>
 				<div className="layout__content-container">{children}</div>

@@ -1,14 +1,14 @@
 import "assets/sass/app.sass"
 import React from "react"
+import { Auth0Provider } from "react-auth0-spa"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import { applyMiddleware, createStore } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 import thunk from "redux-thunk"
 import { rootReducer } from "redux/rootReducer"
-import App from "./App"
 import history from "utils/history"
-import { Auth0Provider } from "react-auth0-spa"
+import App from "./App"
 
 const store = createStore(
 	rootReducer,
