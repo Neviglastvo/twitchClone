@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Route } from "react-router-dom"
-import { useAuth0 } from "react-auth0-spa"
+import { useAuth0 } from "components/TwitchAuth/react-auth0-spa"
 
 export const PublicRoute = ({
 	component: Component,

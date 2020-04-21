@@ -3,6 +3,9 @@ import "./baselayout.sass"
 import Navigation from "components/menu/Navigation/Navigation"
 import TwitchAuth from "components/TwitchAuth/TwitchAuth"
 import User from "components/header/User/User"
+import { ToastContainer } from "react-toastify"
+import UserContainer from "containers/UserContainer"
+import AuthCallback from "containers/AuthCallback"
 
 const BaseLayout = ({ children }) => {
 	return (
@@ -22,12 +25,22 @@ const BaseLayout = ({ children }) => {
 					</div>
 
 					<div>
-						<TwitchAuth />
-						{/* <User/> */}
+						{/* <TwitchAuth /> */}
+						{/* <User /> */}
+						<UserContainer />
 					</div>
 				</div>
 				<div className="layout__content-container">{children}</div>
 			</div>
+			<ToastContainer
+				position="top-right"
+				hideProgressBar={false}
+				autoClose={3000}
+				newestOnTop={true}
+				closeOnClick={true}
+				draggable={true}
+				rtl={false}
+			/>
 		</div>
 	)
 }

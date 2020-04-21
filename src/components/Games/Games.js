@@ -4,31 +4,44 @@ import { NavLink, Link } from "react-router-dom"
 import HorizontalScroll from "react-scroll-horizontal"
 import Skeleton from "react-loading-skeleton"
 import "./games.sass"
+import { useDispatch } from "react-redux"
+import { alertActions } from "redux/user/userActions"
+import { useAlert } from "hooks/alert.hook"
 
 const Games = () => {
+	const dispatch = useDispatch()
+
+	const message = useAlert()
+
 	const pageSize = 4
 
 	const [games, setGames] = useState([])
 	const [pageOffset, setPageOffset] = useState(0)
 
 	const fetchTopGames = useCallback(async () => {
-		const result = await api.get(
-			`/games/top?limit=${pageSize}&offset=${pageOffset}`,
-		)
+		try {
+			const result = await api.get(
+				`/games/top?limit=${pageSize}&offset=${pageOffset}`,
+			)
+			let topGames = result.data.top
 
-		let topGames = result.data.top
+			let finalArray = topGames.map((game) => {
+				let newImage = game.game.box.template
+					.replace("{width}", 1366)
+					.replace("{height}", 1080)
 
-		let finalArray = topGames.map((game) => {
-			let newImage = game.game.box.template
-				.replace("{width}", 1366)
-				.replace("{height}", 1080)
+				game.game.box.template = newImage
+				return game
+			})
 
-			game.game.box.template = newImage
-			return game
-		})
-
-		setGames(finalArray)
-	}, [pageOffset])
+			setGames(finalArray)
+			// dispatch(alertActions.success("fetchTopGames() successful"))
+			message("fetchTopGames")
+		} catch (error) {
+			message(error)
+			// dispatch(alertActions.error(`fetchTopGames() error : ${error.toString()}`))
+		}
+	}, [message, pageOffset])
 
 	useEffect(() => {
 		fetchTopGames()

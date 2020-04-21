@@ -1,38 +1,15 @@
-import {
-	AUTH_USER,
-	UNAUTH_USER,
-	AUTH_IN_PROGRESS,
-	AUTH_ERROR,
-	FORGOT_SUCCESS,
-	CLEARDOWN,
-} from "redux/actions/auth/authTypes"
+import { USER_PROFILE_LOADED } from "redux/actions/authActions"
 
-const INIT = {
-	forgotMsg: "",
-	error: "",
-	timestamp: "",
-	loading: false,
-	authenticated: false,
+const initialState = {
+	auth: null,
 }
 
-export default function (state = {}, action) {
+export function authReducer(state = initialState, action) {
 	switch (action.type) {
-		case CLEARDOWN:
-			return { ...state, ...INIT }
-		case AUTH_USER:
-			return { ...state, ...INIT, authenticated: true }
-		case AUTH_IN_PROGRESS:
-			return { ...state, ...INIT, loading: true }
-		case UNAUTH_USER:
-			return { ...state, ...INIT }
-		case FORGOT_SUCCESS:
-			return { ...state, ...INIT, forgotMsg: action.message }
-		case AUTH_ERROR:
+		case USER_PROFILE_LOADED:
 			return {
 				...state,
-				...INIT,
-				error: action.error,
-				timestamp: action.timestamp,
+				auth: action.user,
 			}
 		default:
 			return state

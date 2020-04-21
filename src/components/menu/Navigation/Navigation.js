@@ -20,6 +20,10 @@ const Navigation = () => {
 				Profile
 			</NavLink>
 
+			<NavLink className="navigation__item" to="/profile2">
+				Profile2
+			</NavLink>
+
 			{/* <GoogleAuth className="navigation__item navigation__item--google" /> */}
 		</ul>
 	)
