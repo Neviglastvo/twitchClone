@@ -1,6 +1,6 @@
 import React from "react"
 import "./profilepage.sass"
-import { useAuth0 } from "react-auth0-spa"
+import { useAuth0 } from "components/TwitchAuth/react-auth0-spa"
 
 const ProfilePage = () => {
 	const { loading, user } = useAuth0()

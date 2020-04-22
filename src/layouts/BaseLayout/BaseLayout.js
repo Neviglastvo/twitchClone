@@ -22,7 +22,6 @@ const BaseLayout = ({ children }) => {
 					</div>
 
 					<div>
-						<TwitchAuth />
 						<User />
 					</div>
 				</div>

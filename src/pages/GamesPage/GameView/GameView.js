@@ -64,6 +64,7 @@ const GameView = (props) => {
 					<div className="game__list-container">
 						{streams.map((item) => (
 							<div className="game__list-item" key={`/${item.channel.name}`}>
+								{console.log("item", item)}
 								<Link
 									className="game__item"
 									to={{

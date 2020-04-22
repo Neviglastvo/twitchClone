@@ -6,13 +6,15 @@ import GameView from "pages/GamesPage/GameView/GameView"
 import HomePage from "pages/HomePage/HomePage"
 import StreamPage from "pages/StreamPage/StreamPage"
 import React from "react"
-import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom"
+import { Switch, BrowserRouter } from "react-router-dom"
 import { PublicRoute, PrivateRoute } from "router"
 import ProfilePage from "pages/AuthPage/ProfilePage/ProfilePage"
+import NotFoundPage from "pages/NotFoundPage/NotFoundPage"
+import LandingLayout from "layouts/LandingLayout/LandingLayout"
 
 function App() {
 	return (
-		<Router>
+		<BrowserRouter>
 			<Switch>
 				<PublicRoute path="/" exact component={HomePage} layout={BaseLayout} />
 				<PublicRoute path="/auth" component={AuthPage} layout={AuthLayout} />
@@ -30,12 +32,11 @@ function App() {
 					layout={BaseLayout}
 				/>
 				<PublicRoute path="/:id" exact component={StreamPage} layout={BaseLayout} />
-				<Redirect to="/" />
+				{/* <Redirect to="/" /> */}
+				{/* <PublicRoute path="*" component={NotFoundPage} layout={LandingLayout} /> */}
 			</Switch>
-		</Router>
+		</BrowserRouter>
 	)
 }
 
 export default App
-
-// o1ip5xetf96m5u74obrgwpp4127ptj

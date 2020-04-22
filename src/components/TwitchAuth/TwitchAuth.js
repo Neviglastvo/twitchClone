@@ -1,11 +1,11 @@
 import React from "react"
-import { useAuth0 } from "react-auth0-spa"
+import { useAuth0 } from "components/TwitchAuth/react-auth0-spa"
 import "./twitchauth.sass"
 
 const TwitchAuth = () => {
 	const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
 
-	console.log("isAuthenticated :", isAuthenticated)
+	// console.log("isAuthenticated :", isAuthenticated)
 
 	return (
 		<>

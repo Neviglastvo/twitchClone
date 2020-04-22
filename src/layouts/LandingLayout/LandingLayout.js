@@ -1,9 +1,8 @@
-import React from 'react'
-import './landinglayout.sass'
+import React from "react"
+import "./landinglayout.sass"
 
-
-const LandingLayout = () => {
-    return <div>I am LandingLayout component</div>
+const LandingLayout = ({ children }) => {
+	return <>{children}</>
 }
 
 export default LandingLayout

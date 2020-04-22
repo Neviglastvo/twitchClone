@@ -1,6 +1,6 @@
 import "assets/sass/app.sass"
 import React from "react"
-import { Auth0Provider } from "react-auth0-spa"
+import { Auth0Provider } from "components/TwitchAuth/react-auth0-spa"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import { applyMiddleware, createStore } from "redux"
@@ -9,6 +9,7 @@ import thunk from "redux-thunk"
 import { rootReducer } from "redux/rootReducer"
 import history from "utils/history"
 import App from "./App"
+import { createBrowserHistory } from "history"
 
 const store = createStore(
 	rootReducer,
@@ -17,6 +18,8 @@ const store = createStore(
 		// other store enhancers if any
 	),
 )
+
+createBrowserHistory()
 
 // A function that routes the user to the right place after login
 const onRedirectCallback = (appState) => {
