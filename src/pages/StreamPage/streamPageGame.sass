@@ -1,0 +1,50 @@
+@import 'src/assets/sass/helpers/_variables'
+@import 'src/assets/sass/helpers/_mixins'
+
+.streamPageGame
+	display: flex
+	width: 100%
+
+	&__avatar-container
+		width: 150px
+		+aspectRatio(9, 12)
+		margin-right: $globalPaddings
+
+	&__avatar
+		object-fit: cover
+
+	&__container
+		display: flex
+		flex-direction: column
+		align-items: flex-start
+		width: 100%
+
+	&__box
+		width: 100%
+		display: flex
+		align-items: center
+		margin-bottom: $globalPaddings
+
+	&__streamerStatus
+		width: 100%
+		font-size: 16px
+		line-height: 20px
+
+
+	&__currentOnline
+		margin-left: 15px
+		font-weight: 900
+
+
+	&__gameTitle
+
+		color: $white
+		font-size: 18px
+
+
+	&__tags
+
+
+	&__tag
+
+

@@ -15,7 +15,7 @@
 		overflow-x: auto
 		overflow-y: hidden
 		width: 100%
-		max-width: 240px
+		max-width: $sidebarWidth
 		display: flex
 		flex-direction: column
 		align-items: center
@@ -42,23 +42,26 @@
 
 	&__content
 		position: relative
-		margin-left: 240px
+		margin-left: $sidebarWidth
 		width: 100%
 		max-width: 100vw
 		overflow: hidden
 		min-height: 100vh
 		display: flex
 		flex-direction: column
-		background-color: $dark
 		color: $text
-		padding: 15px
+		padding: $globalPaddings
+		+before
+			background-color: $dark
+			+cover
+			z-index: -99
 
 	&__content-head
 		display: flex
 		align-items: center
 		justify-content: space-between
 		min-height: 50px
-		margin-bottom: 15px
+		margin-bottom: $globalPaddings
 
 	&__content-container
 		width: 100%

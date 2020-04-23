@@ -51,8 +51,10 @@ const Games = () => {
 							to={{
 								pathname: `/games/${item.game.name}`,
 								state: {
+									all: item,
 									gameID: item.game._id,
 									bgImage: item.game.box.template,
+									thumbImage: item.game.box.large,
 									info: item.game,
 								},
 							}}

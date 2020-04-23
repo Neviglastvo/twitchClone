@@ -3,14 +3,16 @@ import "./gameview.sass"
 import { api } from "api/api"
 import { Link } from "react-router-dom"
 
-const GameView = (props) => {
-	const { match, location } = props
+const GameView = ({ match, location }) => {
+	console.log("location :", location)
 
+	// const { gameId, bgImage, thumbImage } = location.state
+
+	const currentGame = location.state.all
 	const game = location.state.info
 	const gameName = game.name
-	const gameId = location.state.gameID
 
-	const pageSize = 12
+	const pageSize = 6
 
 	const [streams, setStreams] = useState([])
 	const [pageOffset, setPageOffset] = useState(0)
@@ -18,7 +20,7 @@ const GameView = (props) => {
 	const fetchStreamsByGame = useCallback(
 		async (offset) => {
 			const result = await api.get(
-				`/streams/?game=${gameName}&limit=9&offset=${offset}`,
+				`/streams/?game=${gameName}&limit=${pageSize}&offset=${offset}`,
 			)
 
 			let array = result.data.streams
@@ -70,8 +72,11 @@ const GameView = (props) => {
 									to={{
 										pathname: `/${item.channel.name}`,
 										state: {
-											channelID: item.channel._id,
-											info: item.channel,
+											stream: item,
+											game: currentGame,
+											// game: item.game,
+											// channelInfo: item.channel,
+											// channelID: item.channel._id,
 											// bgImage: item.game.box.template,
 										},
 									}}

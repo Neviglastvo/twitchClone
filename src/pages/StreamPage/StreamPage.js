@@ -2,38 +2,37 @@ import { api } from "api/api"
 import React, { useCallback, useEffect, useState } from "react"
 import ReactPlayer from "react-player"
 import "./streampage.sass"
+import "./streamPageGame.sass"
 import Skeleton from "react-loading-skeleton"
+import moment from "moment"
+import { Link } from "react-router-dom"
 
-const StreamPage = ({ match, location }, props) => {
-	// const channel = location.state.info
-	// const channelName = channel.name
-	console.log("match :", match)
-
-	const sooqa = match.params.id
+const StreamPage = ({ match, location }) => {
 	console.log("location :", location)
 	const [stream, setStream] = useState()
-	let chanelId = location.state || null
+	const [chatVisible, setChatVisible] = useState(true)
+
+	const currentGameFromProps = location.state.game.game
+	const currentGameImage = currentGameFromProps.box.large
+	const currentGameName = stream ? stream.game : ""
+
+	const currentStream = location.state.stream
+	const currentStreamViewers = currentStream.viewers
+	console.log("currentGameFromProps :", currentGameFromProps)
+
+	const sooqa = match.params.id
 
 	const fetch = useCallback(async () => {
-		// if (chanelId) {
-		// 	result = await api.get(`/channels/${chanelId}`)
-		// } else {
-		const chanelIdFromUsername = location.pathname.slice(1)
 		const getChanelId = await api.get(`/users?login=${sooqa}`)
-
-		console.log("getChanelId :", getChanelId)
 
 		if (getChanelId.data.users.length === 0) {
 			return
 		} else {
-			chanelId = getChanelId.data.users[0]._id
+			const chanelId = getChanelId.data.users[0]._id
 			const result = await api.get(`/channels/${chanelId}`)
 
-			const array = result.data
-
-			setStream(array)
+			setStream(result.data)
 		}
-		// }
 
 		// let finalArray = array.map((game) => {
 		// 	let newImage = game.game.box.template
@@ -55,17 +54,71 @@ const StreamPage = ({ match, location }, props) => {
 		console.log("stream :", stream)
 	}, [stream])
 
+	const chatVisibilityToggler = () => {
+		setChatVisible(!chatVisible)
+	}
+
 	return (
 		<div className="streamPage">
-			<>
+			{/* <div
+				className={`streamPage__bg ${stream && "loaded"}`}
+				style={{ backgroundImage: `url(${stream ? stream.video_banner : ""})` }}
+			></div> */}
+			<img
+				src={stream ? stream.video_banner : ""}
+				alt=""
+				className={`streamPage__bg ${stream && "loaded"}`}
+			/>
+			<div className="streamPage__container">
 				<div className="streamPage__content">
+					<div className="streamPage__streamer">
+						{stream ? (
+							<img
+								className="streamPage__streamer-avatar"
+								src={stream.logo}
+								alt={stream.description}
+							/>
+						) : (
+							<Skeleton />
+						)}
+						<div className="streamPage__streamer-box">
+							{stream ? (
+								<div className="streamPage__streamer-box-name">
+									{stream.display_name}
+								</div>
+							) : (
+								<Skeleton />
+							)}
+							{stream ? (
+								<div className="streamPage__streamer-box-onlineTime">
+									{moment(stream.updated_at, "YYYYMMDD").fromNow()}
+								</div>
+							) : (
+								<Skeleton />
+							)}
+						</div>
+
+						<div className="streamPage__streamer-actions">
+							<button className="button button--small">follow</button>
+							{!chatVisible && (
+								<button
+									className="streamPage__chatToggler button button--small"
+									onClick={chatVisibilityToggler}
+								>
+									{"<"}
+								</button>
+							)}
+						</div>
+					</div>
+
 					<div className="streamPage__video-container ">
 						{!stream ? (
 							<Skeleton height={"100%"} />
 						) : (
 							<ReactPlayer
 								url={stream.url}
-								playing
+								// playing
+								muted
 								playsinline
 								className="streamPage__video"
 								width="100%"
@@ -74,41 +127,102 @@ const StreamPage = ({ match, location }, props) => {
 						)}
 					</div>
 
-					<div className="streamPage__info"></div>
+					<div className="streamPageGame">
+						{stream ? (
+							<div className="streamPageGame__avatar-container">
+								<img
+									className="streamPageGame__avatar"
+									src={currentGameImage}
+									alt={currentGameName}
+								/>
+							</div>
+						) : (
+							<Skeleton />
+						)}
+						<div className="streamPageGame__container">
+							<div className="streamPageGame__box">
+								{stream ? (
+									<div className="streamPageGame__streamerStatus">{stream.status}</div>
+								) : (
+									<Skeleton />
+								)}
+								{stream && currentStreamViewers ? (
+									<div className="streamPageGame__currentOnline online">
+										{currentStreamViewers}
+									</div>
+								) : (
+									<Skeleton />
+								)}
+							</div>
+
+							{stream && currentGameName ? (
+								<Link
+									className="streamPageGame__gameTitle"
+									to={{
+										pathname: `/games/${currentGameName}`,
+									}}
+								>
+									{currentGameName}
+								</Link>
+							) : (
+								<Skeleton />
+							)}
+							<div className="streamPageGame__tags">
+								<div className="streamPageGame__tag"></div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div className="streamPage__chat">
+
+				<div className={`streamPage__chat ${chatVisible && "visible"}`}>
 					{!stream ? (
 						<Skeleton height={"100%"} />
 					) : (
-						<iframe
-							title={stream.name}
-							frameBorder="0"
-							scrolling="no"
-							id="chat_embed"
-							src={`https://www.twitch.tv/embed/${stream.name}/chat`}
-						></iframe>
+						<>
+							<button
+								className="streamPage__chatToggler streamPage__chatToggler--chat button button--small"
+								onClick={chatVisibilityToggler}
+							>
+								>
+							</button>
+							<iframe
+								title={stream.name}
+								frameBorder="0"
+								scrolling="no"
+								id="chat_embed"
+								// src={chatVisible && `https://www.twitch.tv/embed/${stream.name}/chat`}
+								src={`https://www.twitch.tv/embed/${stream.name}/chat`}
+							></iframe>
+						</>
 					)}
 				</div>
-			</>
+			</div>
 		</div>
 	)
 }
 
 export default StreamPage
 
-// channels / 44322889
-// {data: {…}, status: 200, statusText: "", headers: {…}, config: {…}, …}
-// data:
-// _total: 1
-// users: Array(1)
-// 0:
-// display_name: "Elajjaz"
-// _id: "26921830"
-// name: "elajjaz"
-// type: "user"
-// bio: "Never late, always deathless."
-// created_at: "2011-12-20T12:13:21.05282Z"
-// updated_at: "2020-04-22T01:50:21.599724Z"
-// logo: "https://static-cdn.jtvnw.net/jtv_user_pictures/elajjaz-profile_image-fcfc55e0804b6bfd-300x300.png"
-// __proto__: Object
-// length: 1
+// broadcaster_language: "en"
+// broadcaster_software: "unknown_rtmp"
+// broadcaster_type: "partner"
+// created_at: "2014-12-04T03:13:38Z"
+// description: "That famous Swedish guy that's not PewDiePie."
+// display_name: "Anomaly"
+// followers: 1894437
+// game: "VALORANT"
+// language: "en"
+// logo: "https://static-cdn.jtvnw.net/jtv_user_pictures/anomaly-profile_image-0be1a6abbc7a9f45-300x300.png"
+// mature: false
+// name: "anomaly"
+// partner: true
+// privacy_options_enabled: false
+// private_video: false
+// profile_banner: "https://static-cdn.jtvnw.net/jtv_user_pictures/17be744e-7025-44e3-82d1-827aa99b1dd0-profile_banner-480.png"
+// profile_banner_background_color: null
+// status: "24/7 DROPS STREAM ✔️ VOD HIGHLIGHT REEL (GLOBAL ELITE)"
+// updated_at: "2020-04-23T04:50:00Z"
+// url: "https://www.twitch.tv/anomaly"
+// video_banner: "https://static-cdn.jtvnw.net/jtv_user_pictures/037e6764-0046-496e-9c66-fb08ca0a1c2c-channel_offline_image-1920x1080.png"
+// views: 43844050
+// _id: "76508554"
