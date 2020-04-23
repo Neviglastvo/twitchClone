@@ -1,7 +1,6 @@
 import { api } from "api/api"
 import React, { useCallback, useEffect, useState } from "react"
-import { NavLink, Link } from "react-router-dom"
-import HorizontalScroll from "react-scroll-horizontal"
+import { Link } from "react-router-dom"
 import Skeleton from "react-loading-skeleton"
 import "./games.sass"
 
@@ -41,29 +40,30 @@ const Games = () => {
 	return (
 		<div className="games">
 			<div className="games__container">
-				{games.map((item) => (
-					<div className="games__item-wrapper" key={item.game._id}>
-						<Link
-							className="games__item"
-							style={{
-								backgroundImage: `url(${item.game.box.large})`,
-							}}
-							to={{
-								pathname: `/games/${item.game.name}`,
-								state: {
-									all: item,
-									gameID: item.game._id,
-									bgImage: item.game.box.template,
-									thumbImage: item.game.box.large,
-									info: item.game,
-								},
-							}}
-						>
-							<div className="games__title">{item.game.name || <Skeleton />}</div>
-							<div className="games__subtitle">{item.viewers || <Skeleton />}</div>
-						</Link>
-					</div>
-				))}
+				{games &&
+					games.map((item) => (
+						<div className="games__item-wrapper" key={item.game._id}>
+							<Link
+								className="games__item"
+								style={{
+									backgroundImage: `url(${item.game.box.large})`,
+								}}
+								to={{
+									pathname: `/games/${item.game.name}`,
+									state: {
+										all: item,
+										gameID: item.game._id,
+										bgImage: item.game.box.template,
+										thumbImage: item.game.box.large,
+										info: item.game,
+									},
+								}}
+							>
+								<div className="games__title">{item.game.name || <Skeleton />}</div>
+								<div className="games__subtitle">{item.viewers || <Skeleton />}</div>
+							</Link>
+						</div>
+					))}
 			</div>
 
 			<div className="games__actions">

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom"
 
 const StreamPage = ({ match, location }) => {
 	console.log("location :", location)
+	console.log("match :", match)
 	const [stream, setStream] = useState()
 	const [chatVisible, setChatVisible] = useState(true)
 

@@ -5,12 +5,10 @@ import { Link } from "react-router-dom"
 
 const GameView = ({ match, location }) => {
 	console.log("location :", location)
-
-	// const { gameId, bgImage, thumbImage } = location.state
+	console.log("match :", match)
 
 	const currentGame = location.state.all
-	const game = location.state.info
-	const gameName = game.name
+	const gameName = match.params.id
 
 	const pageSize = 6
 
@@ -65,7 +63,7 @@ const GameView = ({ match, location }) => {
 				<div className="game__list">
 					<div className="game__list-container">
 						{streams.map((item) => (
-							<div className="game__list-item" key={`/${item.channel.name}`}>
+							<div className="game__list-item" key={`${item.channel.name}`}>
 								{console.log("item", item)}
 								<Link
 									className="game__item"
@@ -74,10 +72,6 @@ const GameView = ({ match, location }) => {
 										state: {
 											stream: item,
 											game: currentGame,
-											// game: item.game,
-											// channelInfo: item.channel,
-											// channelID: item.channel._id,
-											// bgImage: item.game.box.template,
 										},
 									}}
 									style={{
