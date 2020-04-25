@@ -3,14 +3,14 @@ import { useAuth0 } from "components/TwitchAuth/react-auth0-spa"
 import "./twitchauth.sass"
 
 const TwitchAuth = () => {
-	const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+	const { isAuthenticated, loginWithPopup, logout } = useAuth0()
 
 	// console.log("isAuthenticated :", isAuthenticated)
 
 	return (
 		<>
 			{!isAuthenticated && (
-				<button className="button" onClick={() => loginWithRedirect({})}>
+				<button className="button" onClick={() => loginWithPopup({})}>
 					Log in
 				</button>
 			)}

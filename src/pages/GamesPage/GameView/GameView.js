@@ -7,8 +7,8 @@ const GameView = ({ match, location }) => {
 	console.log("location :", location)
 	console.log("match :", match)
 
-	const currentGame = location.state.all
 	const gameName = match.params.id
+	const currentGame = location.state ? location.state.all : gameName
 
 	const pageSize = 6
 
@@ -53,7 +53,7 @@ const GameView = ({ match, location }) => {
 		<div className="game">
 			<div
 				className="game__bg"
-				style={{ backgroundImage: `url(${location.state.bgImage})` }}
+				// style={{ backgroundImage: `url(${location.state.bgImage})` }}
 			></div>
 			<div className="game__container">
 				<div className="game__title-container">

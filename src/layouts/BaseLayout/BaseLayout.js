@@ -3,8 +3,12 @@ import "./baselayout.sass"
 import Navigation from "components/menu/Navigation/Navigation"
 import TwitchAuth from "components/TwitchAuth/TwitchAuth"
 import User from "components/header/User/User"
+import FollowingChannels from "components/menu/FollowingChannels/FollowingChannels"
+import { useAuth0 } from "components/TwitchAuth/react-auth0-spa"
 
 const BaseLayout = ({ children }) => {
+	const { loading, user } = useAuth0()
+
 	return (
 		<div className="layout">
 			<div className="layout__menu">
@@ -13,6 +17,9 @@ const BaseLayout = ({ children }) => {
 				</div>
 				<div className="layout__menu-navigation">
 					<Navigation />
+				</div>
+				<div className="layout__userFollowed">
+					{!user ? <div>Loading...</div> : <FollowingChannels />}
 				</div>
 			</div>
 			<div className="layout__content">

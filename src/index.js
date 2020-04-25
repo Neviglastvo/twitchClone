@@ -49,3 +49,9 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById("root"),
 )
+
+//twitch
+// Идентификатор клиента
+// o1ip5xetf96m5u74obrgwpp4127ptj
+// Секретный код клиента
+// hh65fbf5f68ydaiioy060q2mkwhb98

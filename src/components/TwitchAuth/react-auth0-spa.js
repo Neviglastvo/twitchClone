@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"
 import createAuth0Client from "@auth0/auth0-spa-js"
 
+const storageName = "userData"
+
 const DEFAULT_REDIRECT_CALLBACK = () =>
 	window.history.replaceState({}, document.title, window.location.pathname)
 
@@ -55,6 +57,7 @@ export const Auth0Provider = ({
 			setPopupOpen(false)
 		}
 		const user = await auth0Client.getUser()
+		localStorage.setItem(storageName, JSON.stringify({ user: user }))
 		setUser(user)
 		setIsAuthenticated(true)
 	}
@@ -67,6 +70,12 @@ export const Auth0Provider = ({
 		setIsAuthenticated(true)
 		setUser(user)
 	}
+
+	// useEffect(() => {
+	// 	const data = JSON.parse(localStorage.getItem(storageName))
+	// 	console.log(`localStorage ${storageName} :>> `, data)
+	// }, [])
+
 	return (
 		<Auth0Context.Provider
 			value={{
